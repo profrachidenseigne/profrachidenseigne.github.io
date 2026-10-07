@@ -1,0 +1,8 @@
+title: "Apprendre c'est Vivre"
+description: "Blog de Prof Rachid ES-SABRY pour apprendre le français"
+author: "Prof Rachid ES-SABRY"
+lang: fr
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
