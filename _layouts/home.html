@@ -1,27 +1,32 @@
 ---
 layout: default
 ---
-{%- assign featured = nil -%}
-{%- if site.featured_post != "" -%}
-  {%- for p in site.posts -%}{%- if p.url == site.featured_post -%}{%- assign featured = p -%}{%- endif -%}{%- endfor -%}
-{%- else -%}
-  {%- for p in site.posts limit: 15 -%}
-    {%- unless featured -%}
-      {%- include thumb.html post=p -%}
-      {%- if thumb != "" -%}{%- assign featured = p -%}{%- endif -%}
-    {%- endunless -%}
-  {%- endfor -%}
-{%- endif -%}
-{% if featured %}
-{%- include thumb.html post=featured -%}
+{%- assign feat_urls = "/2025/03/la-bibliotheque-numerique-pour.html,/2023/11/dictionnaire-bilingue-prof-rachid-es.html" | split: "," -%}
+
 <section class="featured">
-  <h2 class="section-title">Article mis en avant</h2>
-  <a class="feat-card" href="{{ featured.url | relative_url }}">
-    <img src="{{ thumb | replace: '/s1600/', '/s800/' }}" alt="" loading="lazy">
-    <h3>{{ featured.title }}</h3>
-  </a>
+  <h2 class="section-title">Articles mis en avant</h2>
+  <div class="feat-row">
+    {%- for u in feat_urls -%}
+      {%- assign fp = nil -%}
+      {%- for p in site.posts -%}{%- if p.url == u -%}{%- assign fp = p -%}{%- endif -%}{%- endfor -%}
+      {%- if fp -%}
+        {%- include thumb.html post=fp -%}
+        <a class="feat-card" href="{{ fp.url | relative_url }}">
+          <img src="{{ thumb | replace: '/s1600/', '/s800/' }}" alt="" loading="lazy">
+          <h3>{{ fp.title }}</h3>
+        </a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
 </section>
-{% endif %}
+
+<style>
+.feat-row{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:4px 0 16px;scrollbar-width:none}
+.feat-row::-webkit-scrollbar{display:none}
+.feat-row .feat-card{flex:0 0 88%;min-width:0;scroll-snap-align:center}
+@media(min-width:700px){.feat-row{overflow:visible}.feat-row .feat-card{flex:1}}
+</style>
 
 <section>
   <h2 class="section-title">Derniers articles</h2>
