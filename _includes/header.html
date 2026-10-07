@@ -1,0 +1,25 @@
+<div class="ai-bar">
+  <span class="ai-label">Consulter l’IA</span>
+  <a href="https://chat.openai.com" target="_blank" rel="noopener">ChatGPT</a>
+  <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a>
+  <a href="https://www.deepseek.com" target="_blank" rel="noopener">DeepSeek</a>
+  <a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini</a>
+  <a href="https://www.perplexity.ai" target="_blank" rel="noopener">Perplexity</a>
+</div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-name" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    <form class="search" action="{{ '/archive/' | relative_url }}" method="get" role="search">
+      <input type="search" name="q" placeholder="Rechercher" aria-label="Rechercher">
+      <button type="submit" aria-label="Rechercher">&#128269;</button>
+    </form>
+  </div>
+  <nav class="menu wrap">
+    <a href="{{ '/archive/' | relative_url }}">Articles</a>
+    <a href="{{ '/archive/?tag=Langue' | relative_url }}">Langue</a>
+    <a href="{{ '/archive/?tag=Écrit' | relative_url }}">Écrit</a>
+    <a href="{{ '/archive/?tag=Oral' | relative_url }}">Oral</a>
+    <a href="{{ '/archive/?tag=vocabulaire%20français' | relative_url }}">Vocabulaire</a>
+    <a href="{{ '/p/histoires.html' | relative_url }}">Histoires</a>
+  </nav>
+</header>

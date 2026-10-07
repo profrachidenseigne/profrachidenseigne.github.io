@@ -1,0 +1,42 @@
+---
+layout: default
+---
+{%- assign featured = nil -%}
+{%- if site.featured_post != "" -%}
+  {%- for p in site.posts -%}{%- if p.url == site.featured_post -%}{%- assign featured = p -%}{%- endif -%}{%- endfor -%}
+{%- else -%}
+  {%- for p in site.posts limit: 15 -%}
+    {%- unless featured -%}
+      {%- include thumb.html post=p -%}
+      {%- if thumb != "" -%}{%- assign featured = p -%}{%- endif -%}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- endif -%}
+{% if featured %}
+{%- include thumb.html post=featured -%}
+<section class="featured">
+  <h2 class="section-title">Article mis en avant</h2>
+  <a class="feat-card" href="{{ featured.url | relative_url }}">
+    <img src="{{ thumb | replace: '/s1600/', '/s800/' }}" alt="" loading="lazy">
+    <h3>{{ featured.title }}</h3>
+  </a>
+</section>
+{% endif %}
+
+<section>
+  <h2 class="section-title">Derniers articles</h2>
+  {% for post in site.posts limit: 10 %}{% include card.html post=post %}{% endfor %}
+  <p class="center"><a class="btn" href="{{ '/archive/' | relative_url }}">Tous les articles</a></p>
+</section>
+
+<section>
+  <h2 class="section-title">Catégories</h2>
+  <p class="chips">
+    <a href="{{ '/archive/?tag=Articles' | relative_url }}">Article</a>
+    <a href="{{ '/archive/?tag=Écrit' | relative_url }}">Écrit</a>
+    <a href="{{ '/p/histoires.html' | relative_url }}">Histoires</a>
+    <a href="{{ '/archive/?tag=Langue' | relative_url }}">Langue</a>
+    <a href="{{ '/archive/?tag=Oral' | relative_url }}">Oral</a>
+    <a href="{{ '/archive/?tag=vocabulaire%20français' | relative_url }}">Vocabulaire</a>
+  </p>
+</section>

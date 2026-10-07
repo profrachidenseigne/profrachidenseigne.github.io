@@ -1,0 +1,8 @@
+{%- assign thumb = "" -%}
+{%- assign p1 = include.post.content | split: '<img' -%}
+{%- if p1.size > 1 -%}
+  {%- assign p2 = p1[1] | split: 'src="' -%}
+  {%- if p2.size > 1 -%}
+    {%- assign thumb = p2[1] | split: '"' | first -%}
+  {%- endif -%}
+{%- endif -%}

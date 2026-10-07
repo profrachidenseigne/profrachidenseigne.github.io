@@ -1,0 +1,11 @@
+<footer class="site-footer">
+  <p class="links">
+    <a href="{{ '/p/privacy-policy.html' | relative_url }}">Privacy policy</a>
+    <a href="{{ '/p/terms-and-conditions.html' | relative_url }}">Terms and conditions</a>
+    <a href="{{ '/p/disclaimer.html' | relative_url }}">Disclaimer</a>
+    <a href="{{ '/p/contact-us.html' | relative_url }}">Contact</a>
+    {% if site.youtube != "" %}<a href="{{ site.youtube }}" target="_blank" rel="noopener">YouTube</a>{% endif %}
+    {% if site.facebook != "" %}<a href="{{ site.facebook }}" target="_blank" rel="noopener">Facebook</a>{% endif %}
+  </p>
+  <p class="copy">© 2019–{{ 'now' | date: '%Y' }} <a href="{{ '/' | relative_url }}">{{ site.title }}</a> · {{ site.author }}<br>Tous droits réservés</p>
+</footer>

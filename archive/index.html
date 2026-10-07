@@ -1,0 +1,14 @@
+---
+layout: default
+title: Articles
+permalink: /archive/
+---
+<section>
+  <h2 class="section-title" id="arch-title">Tous les articles</h2>
+  <p id="arch-info" class="info"></p>
+  <div id="arch-list">
+  {% for post in site.posts %}{% include card.html post=post %}{% endfor %}
+  </div>
+  <p id="arch-none" class="info" hidden>Aucun article trouvé.</p>
+</section>
+<script src="{{ '/assets/js/archive.js' | relative_url }}"></script>

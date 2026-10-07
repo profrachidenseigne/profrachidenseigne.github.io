@@ -1,0 +1,17 @@
+title: "Apprendre c'est Vivre"
+description: "Blog de Prof Rachid ES-SABRY pour apprendre le français"
+author: "Prof Rachid ES-SABRY"
+lang: fr
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Optional links shown in the footer (leave empty to hide)
+youtube: "https://www.youtube.com/@apprendrecestvivre3792"
+facebook: ""
+
+# Optional: path of the post to feature on the home page (empty = latest post with an image)
+featured_post: ""
+
+exclude:
+  - README.md
