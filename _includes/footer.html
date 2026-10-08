@@ -1,11 +1,58 @@
-<footer class="site-footer">
-  <p class="links">
-    <a href="{{ '/p/privacy-policy.html' | relative_url }}">Privacy policy</a>
-    <a href="{{ '/p/terms-and-conditions.html' | relative_url }}">Terms and conditions</a>
-    <a href="{{ '/p/disclaimer.html' | relative_url }}">Disclaimer</a>
-    <a href="{{ '/p/contact-us.html' | relative_url }}">Contact</a>
-    {% if site.youtube != "" %}<a href="{{ site.youtube }}" target="_blank" rel="noopener">YouTube</a>{% endif %}
-    {% if site.facebook != "" %}<a href="{{ site.facebook }}" target="_blank" rel="noopener">Facebook</a>{% endif %}
-  </p>
-  <p class="copy">© 2019–{{ 'now' | date: '%Y' }} <a href="{{ '/' | relative_url }}">{{ site.title }}</a> · {{ site.author }}<br>Tous droits réservés</p>
+<footer class="sf">
+  <div class="sf-grid">
+
+    <div class="sf-col">
+      <h4>Infos</h4>
+      <a href="{{ '/p/contact-us.html' | relative_url }}">Contact</a>
+      <a href="{{ '/p/terms-and-conditions.html' | relative_url }}">Terms and conditions</a>
+      <a href="{{ '/p/disclaimer.html' | relative_url }}">Disclaimer</a>
+    </div>
+
+    <div class="sf-col">
+      <h4>Suivez-nous</h4>
+      <a href="https://youtube.com/@apprendrecestvivre3792?si=asNq2FVYFrsGt0uB" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://www.facebook.com/share/1Q9egXUN6z/" target="_blank" rel="noopener">Facebook</a>
+    </div>
+
+    <div class="sf-col sf-wide">
+      <h4>Ressources</h4>
+      <div class="sf-links">
+        <a href="https://play.google.com/store/apps/details?id=com.radiofrance.radio.radiofrance.android" target="_blank" rel="noopener">Radio France</a>
+        <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.magazines" target="_blank" rel="noopener">Google Actualités</a>
+        <a href="https://play.google.com/store/apps/details?id=org.wikipedia" target="_blank" rel="noopener">Wikipédia</a>
+        <a href="https://play.google.com/store/apps/details?id=livio.pack.lang.fr_FR" target="_blank" rel="noopener">Dictionnaire</a>
+        <a href="https://www.storyplayr.com/bibliotheque/age/college" target="_blank" rel="noopener">Livres de Lecture</a>
+        <a href="https://bdplus.cc/" target="_blank" rel="noopener">Bandes dessinées</a>
+        <a href="https://youtube.com/@frenchfairytales?si=FMaIZ_-4gY60KZFh" target="_blank" rel="noopener">Contes en vidéos</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sf-copy">
+    <span>© 2019–{{ 'now' | date: '%Y' }} <strong>{{ site.title }}</strong> · Prof Rachid ES-SABRY</span>
+    <span>Tous droits réservés</span>
+  </div>
 </footer>
+
+<style>
+.sf{margin-top:40px;border-radius:0;color:#fff;
+  background:linear-gradient(135deg,#0f1f4d,#1e3a9f 55%,#3b82f6)}
+.sf-grid{max-width:1100px;margin:0 auto;padding:36px 22px 20px;
+  display:grid;grid-template-columns:1fr 1fr;gap:28px 20px}
+.sf-wide{grid-column:1 / -1}
+.sf-col h4{margin:0 0 14px;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;
+  color:#93c5fd;font-weight:700}
+.sf-col a{display:block;color:#fff;text-decoration:none;padding:6px 0;
+  font-weight:500;opacity:.92;transition:opacity .2s,transform .2s}
+.sf-col a:hover{opacity:1;transform:translateX(3px)}
+.sf-links{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}
+.sf-copy{max-width:1100px;margin:0 auto;padding:18px 22px 28px;text-align:center;
+  border-top:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.75);
+  font-size:.92rem;display:flex;flex-direction:column;gap:4px}
+.sf-copy strong{color:#fff}
+@media(min-width:760px){
+  .sf-grid{grid-template-columns:1fr 1fr 1.6fr}
+  .sf-wide{grid-column:auto}
+}
+</style>
