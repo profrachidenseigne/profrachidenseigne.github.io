@@ -28,20 +28,37 @@ layout: default
 @media(min-width:700px){.feat-row{overflow:visible}.feat-row .feat-card{flex:1}}
 </style>
 
-<section>
-  <h2 class="section-title">Derniers articles</h2>
-  {% for post in site.posts limit: 10 %}{% include card.html post=post %}{% endfor %}
-  <p class="center"><a class="btn" href="{{ '/archive/' | relative_url }}">Tous les articles</a></p>
+<section id="contact">
+  <h2 class="section-title">Contactez-moi</h2>
+  <form class="cform" action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY">
+    <input type="hidden" name="subject" value="Nouveau message depuis Apprendre c'est Vivre">
+    <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
+    <label>Nom
+      <input type="text" name="name" placeholder="Votre nom" required>
+    </label>
+    <label>E-mail
+      <input type="email" name="email" placeholder="votre@email.com" required>
+    </label>
+    <label>Message
+      <textarea name="message" rows="5" placeholder="Votre message…" required></textarea>
+    </label>
+    <button type="submit">Envoyer le message</button>
+  </form>
 </section>
 
-<section>
-  <h2 class="section-title">Catégories</h2>
-  <p class="chips">
-    <a href="{{ '/archive/?tag=Articles' | relative_url }}">Article</a>
-    <a href="{{ '/archive/?tag=Écrit' | relative_url }}">Écrit</a>
-    <a href="{{ '/p/histoires.html' | relative_url }}">Histoires</a>
-    <a href="{{ '/archive/?tag=Langue' | relative_url }}">Langue</a>
-    <a href="{{ '/archive/?tag=Oral' | relative_url }}">Oral</a>
-    <a href="{{ '/archive/?tag=vocabulaire%20français' | relative_url }}">Vocabulaire</a>
-  </p>
-</section>
+<style>
+.cform{background:#fff;border-radius:28px;padding:22px;
+  box-shadow:0 10px 30px rgba(37,99,235,.12);display:grid;gap:16px}
+.cform label{display:grid;gap:6px;font-weight:600;color:#1e3a9f}
+.cform input,.cform textarea{width:100%;box-sizing:border-box;font:inherit;font-weight:400;
+  color:#0f172a;padding:14px 16px;border:2px solid #e5eaff;border-radius:16px;
+  background:#f5f7ff;outline:0;transition:border-color .2s,background .2s}
+.cform input:focus,.cform textarea:focus{border-color:#3b82f6;background:#fff}
+.cform textarea{resize:vertical;min-height:120px}
+.cform button{border:0;border-radius:999px;padding:14px 24px;color:#fff;font:inherit;
+  font-weight:700;font-size:1.05rem;cursor:pointer;
+  background:linear-gradient(135deg,#2563eb,#1e3a9f)}
+.cform button:active{transform:scale(.97)}
+</style>
