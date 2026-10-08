@@ -56,7 +56,9 @@
 .sf-col a{display:block;color:#fff;text-decoration:none;padding:2px 0;
   font-size:.82rem;line-height:1.35;font-weight:500;opacity:.92;
   transition:opacity .2s,transform .2s}
-.sf-col a:hover{opacity:1;transform:translateX(3px)}
+@media (hover:hover){
+  .sf-col a:hover{opacity:1;transform:translateX(3px)}
+}
 .sf-links{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
 .sf-copy{max-width:1100px;margin:0 auto;padding:12px 20px 18px;text-align:center;
   border-top:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.8);
