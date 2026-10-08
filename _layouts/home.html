@@ -2,7 +2,7 @@
 layout: default
 ---
 {%- assign feat_urls = "/2025/03/la-bibliotheque-numerique-pour.html,/2023/11/dictionnaire-bilingue-prof-rachid-es.html" | split: "," -%}
-
+{% if paginator.page == 1 %}
 <section class="featured">
   <h2 class="section-title">Articles mis en avant</h2>
   <div class="feat-row">
@@ -19,7 +19,7 @@ layout: default
     {%- endfor -%}
   </div>
 </section>
-
+{% endif %}
 <style>
 .feat-row{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
   padding:4px 0 16px;scrollbar-width:none}
