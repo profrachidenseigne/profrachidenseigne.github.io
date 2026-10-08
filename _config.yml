@@ -7,7 +7,7 @@ lang: fr
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-
+  - jekyll-paginate
 # Optional links shown in the footer (leave empty to hide)
 youtube: "https://www.youtube.com/@apprendrecestvivre3792"
 facebook: ""
