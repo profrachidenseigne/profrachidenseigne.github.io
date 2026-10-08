@@ -39,7 +39,7 @@
 .sf{margin-top:32px;border-radius:0;color:#fff;
   background:linear-gradient(120deg,#0f1f4d,#1e3a9f,#3b82f6,#60a5fa,#3b82f6,#1e3a9f,#0f1f4d);
   background-size:300% 300%;
-  animation:sfflow 14s ease infinite}
+  animation:sfflow 30s ease infinite}
 @keyframes sfflow{
   0%{background-position:0% 50%}
   50%{background-position:100% 50%}
@@ -49,8 +49,10 @@
 .sf-grid{max-width:1100px;margin:0 auto;padding:24px 20px 10px;
   display:grid;grid-template-columns:1fr 1fr;gap:18px 16px}
 .sf-wide{grid-column:1 / -1}
-.sf-col h4{margin:0 0 8px;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
-  color:#dbeafe;font-weight:700;line-height:1.2}
+.sf-col h4{display:inline-block;margin:0 0 10px;padding:4px 12px;
+  font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;line-height:1.2;
+  font-weight:800;color:#1e3a9f;background:rgba(255,255,255,.92);
+  border-radius:999px}
 .sf-col a{display:block;color:#fff;text-decoration:none;padding:2px 0;
   font-size:.82rem;line-height:1.35;font-weight:500;opacity:.92;
   transition:opacity .2s,transform .2s}
