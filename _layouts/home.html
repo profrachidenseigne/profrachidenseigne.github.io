@@ -2,7 +2,8 @@
 layout: default
 ---
 {%- assign feat_urls = "/2025/03/la-bibliotheque-numerique-pour.html,/2023/11/dictionnaire-bilingue-prof-rachid-es.html" | split: "," -%}
-{% if paginator.page == 1 %}
+
+{% if paginator.page == 1 or paginator == nil %}
 <section class="featured">
   <h2 class="section-title">Articles mis en avant</h2>
   <div class="feat-row">
@@ -20,12 +21,50 @@ layout: default
   </div>
 </section>
 {% endif %}
+
 <style>
 .feat-row{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
   padding:4px 0 16px;scrollbar-width:none}
 .feat-row::-webkit-scrollbar{display:none}
 .feat-row .feat-card{flex:0 0 88%;min-width:0;scroll-snap-align:center}
 @media(min-width:700px){.feat-row{overflow:visible}.feat-row .feat-card{flex:1}}
+</style>
+
+<section>
+  <h2 class="section-title">Derniers articles</h2>
+  {% if paginator %}
+    {% assign list = paginator.posts %}
+  {% else %}
+    {% assign list = site.posts | slice: 0, 10 %}
+  {% endif %}
+  {% for post in list %}{% include card.html post=post %}{% endfor %}
+
+  {% if paginator and paginator.total_pages > 1 %}
+  <nav class="pager" aria-label="Pagination">
+    {% if paginator.previous_page %}
+      <a class="pg-btn" href="{{ paginator.previous_page_path | relative_url }}">‹ Précédent</a>
+    {% else %}
+      <span class="pg-btn off">‹ Précédent</span>
+    {% endif %}
+    <span class="pg-info">{{ paginator.page }} / {{ paginator.total_pages }}</span>
+    {% if paginator.next_page %}
+      <a class="pg-btn" href="{{ paginator.next_page_path | relative_url }}">Suivant ›</a>
+    {% else %}
+      <span class="pg-btn off">Suivant ›</span>
+    {% endif %}
+  </nav>
+  {% endif %}
+
+  <p class="center"><a class="btn" href="{{ '/archive/' | relative_url }}">Tous les articles</a></p>
+</section>
+
+<style>
+.pager{display:flex;align-items:center;justify-content:center;gap:12px;margin:22px 0 8px}
+.pg-btn{padding:12px 18px;border-radius:999px;font-weight:700;text-decoration:none;
+  color:#fff;background:linear-gradient(135deg,#2563eb,#1e3a9f);
+  box-shadow:0 6px 16px rgba(37,99,235,.25)}
+.pg-btn.off{background:#e5eaff;color:#9aa8d6;box-shadow:none}
+.pg-info{font-weight:700;color:#1e3a9f}
 </style>
 
 <section id="contact">
