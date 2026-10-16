@@ -1,0 +1,49 @@
+---
+layout: null
+title: Contact
+permalink: /p/contact-us.html
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact – Apprendre c’est Vivre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&family=Fraunces:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/pages.css">
+</head>
+<body>
+<div class="page">
+<div class="top"><b>Apprendre c’est Vivre</b><a href="/">← Accueil</a></div>
+<h1>Une question, une idée, une correction ?</h1>
+<p class="lead">Écrivez au Prof Rachid ES-SABRY. Les messages des élèves, des parents et des collègues enseignants sont les bienvenus.</p>
+
+<section>
+<h2>Par e-mail</h2>
+<div><a class="mail" href="mailto:rachid911inarma@gmail.com">rachid911inarma@gmail.com</a>
+<p style="margin-top:12px">Réponse en général sous quelques jours.</p></div>
+</section>
+
+<section>
+<h2>Par formulaire</h2>
+<form onsubmit="envoyer(event)">
+<label>Votre nom<input name="nom" required autocomplete="name"></label>
+<label>Votre e-mail<input name="mail" type="email" required autocomplete="email"></label>
+<label>Sujet<input name="sujet"></label>
+<label>Votre message<textarea name="msg" required></textarea></label>
+<button type="submit">Envoyer le message</button>
+<p class="maj">Le bouton ouvre votre application de messagerie avec le message déjà rédigé. Il ne reste qu’à l’envoyer.</p>
+</form>
+</section>
+
+<footer><a href="/">Accueil</a><a href="/p/contact-us.html">Contact</a><a href="/p/terms-and-conditions.html">Conditions d’utilisation</a><a href="/p/disclaimer.html">Avertissement</a></footer>
+</div>
+<script>
+function envoyer(e){e.preventDefault();var f=e.target;
+var s=encodeURIComponent(f.sujet.value||"Message depuis le blog");
+var b=encodeURIComponent("Nom : "+f.nom.value+"\nE-mail : "+f.mail.value+"\n\n"+f.msg.value);
+location.href="mailto:rachid911inarma@gmail.com?subject="+s+"&body="+b;}
+</script>
+</body>
+</html>
