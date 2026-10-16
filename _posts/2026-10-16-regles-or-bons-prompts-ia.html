@@ -1,0 +1,164 @@
+---
+layout: post
+title: "Les règles d’or pour rédiger de bons prompts à l’IA"
+Description: "Dix règles simples, des exemples et une formule magique pour écrire de bons prompts et obtenir de meilleures réponses de l’IA."
+date: 2026-10-16 19:00:00 +0000
+tags: ["Articles"]
+---
+<style>
+.pg{--g:#7cb518;--b:#2f80ed;--r:#e5484d;--v:#7c3aed;line-height:1.7}
+.pg .intro{font-size:1.08em;padding:18px 22px;border-radius:16px;background:linear-gradient(135deg,rgba(124,181,24,.14),rgba(47,128,237,.14));margin:0 0 28px}
+.pg .intro p{margin:0 0 10px}.pg .intro p:last-child{margin:0}
+.pg .rule,.pg .box{border:1px solid rgba(127,127,127,.28);border-radius:18px;padding:20px 22px;margin:22px 0}
+.pg h2{display:flex;align-items:center;gap:12px;margin:0 0 12px;font-size:1.25em;line-height:1.3}
+.pg .n{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;background:linear-gradient(135deg,var(--g),var(--b))}
+.pg .bad,.pg .good,.pg .ex{border-radius:12px;padding:10px 16px;margin:10px 0}
+.pg .bad{background:rgba(229,72,77,.12);border-left:4px solid var(--r)}
+.pg .good{background:rgba(124,181,24,.16);border-left:4px solid var(--g)}
+.pg .ex{background:rgba(127,127,127,.1);border-left:4px solid var(--v)}
+.pg .bad b,.pg .good b{display:block;margin-bottom:2px}
+.pg .tip{margin:14px 0 0;padding:10px 14px;border-radius:12px;background:rgba(47,128,237,.12);font-weight:600}
+.pg .warn{margin:14px 0 0;padding:10px 14px;border-radius:12px;background:rgba(245,158,11,.15);border-left:4px solid #f59e0b}
+.pg p{margin:0 0 10px}
+.pg ul,.pg ol{margin:8px 0 0;padding-left:22px}
+.pg .formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:18px 0}
+.pg .formula span{padding:8px 16px;border-radius:999px;font-weight:700;color:#fff;font-size:.9em}
+.pg .formula b{opacity:.5}
+.pg .checks{list-style:none;padding:0;display:grid;gap:10px}
+.pg .checks li{padding:12px 16px;border-radius:12px;background:rgba(124,181,24,.14)}
+.pg .final{text-align:center;padding:26px 22px;border-radius:20px;margin:28px 0 12px;background:linear-gradient(135deg,rgba(124,181,24,.18),rgba(47,128,237,.18));border:2px solid rgba(47,128,237,.35)}
+.pg .final q{display:block;font-size:1.35em;font-weight:700;margin:6px 0 14px;quotes:none}
+</style>
+
+<div class="pg">
+
+<div class="intro">
+<p>Aujourd’hui, l’intelligence artificielle (IA) peut aider les élèves à apprendre, à chercher des informations, à comprendre une leçon, à corriger un texte ou encore à trouver des idées pour un projet.</p>
+<p>Mais il y a une règle essentielle à retenir : <b>une IA ne peut donner une bonne réponse que si on lui donne une bonne consigne.</b></p>
+<p>Cette consigne s’appelle un <b>prompt</b>. Alors, comment rédiger un bon prompt ? Voici les principales règles à connaître.</p>
+</div>
+
+<div class="rule">
+<h2><span class="n">1</span>Savoir ce que l’on veut</h2>
+<p>Avant d’écrire un prompt, il faut réfléchir à son objectif.</p>
+<div class="bad"><b>❌ Mauvais prompt</b>«La Révolution française.»</div>
+<div class="good"><b>✅ Meilleur prompt</b>«Explique-moi les principales causes de la Révolution française avec des mots simples, adaptés à un élève de collège.»</div>
+<p>Le deuxième prompt indique clairement ce que l’on attend de l’IA.</p>
+<div class="tip">À retenir : avant de poser une question à l’IA, demande-toi : Qu’est-ce que je veux obtenir exactement ?</div>
+</div>
+
+<div class="rule">
+<h2><span class="n">2</span>Donner un maximum de précisions utiles</h2>
+<p>Une demande trop vague peut produire une réponse qui ne correspond pas à ce que l’on cherche.</p>
+<div class="bad"><b>❌</b>«Parle-moi des animaux.»</div>
+<div class="good"><b>✅</b>«Explique-moi comment les animaux se sont adaptés à leur environnement. Donne trois exemples simples pour un élève de collège.»</div>
+<div class="tip">Plus ton prompt est précis, plus la réponse a de chances d’être utile.</div>
+</div>
+
+<div class="rule">
+<h2><span class="n">3</span>Indiquer à qui la réponse est destinée</h2>
+<p>L’IA peut adapter son vocabulaire et ses explications selon le niveau du lecteur. Par exemple :</p>
+<div class="ex">«Explique la photosynthèse à un élève de 6e avec des mots simples et un exemple concret.»</div>
+<p>Ou :</p>
+<div class="ex">«Explique cette notion à un élève de collège qui découvre le sujet.»</div>
+<div class="tip">Cela permet d’obtenir une réponse plus facile à comprendre.</div>
+</div>
+
+<div class="rule">
+<h2><span class="n">4</span>Préciser le format souhaité</h2>
+<p>Tu peux demander à l’IA comment tu veux que la réponse soit présentée. Par exemple :</p>
+<div class="ex">«Donne-moi 5 idées principales sous forme de liste.»</div>
+<div class="ex">«Explique cette leçon en trois paragraphes.»</div>
+<div class="ex">«Présente les étapes sous forme de points numérotés.»</div>
+<div class="ex">«Donne-moi un court résumé de 100 mots.»</div>
+<div class="tip">Le format demandé aide l’IA à organiser sa réponse.</div>
+</div>
+
+<div class="rule">
+<h2><span class="n">5</span>Donner un rôle à l’IA</h2>
+<p>Tu peux également préciser le rôle que l’IA doit jouer. Par exemple :</p>
+<div class="ex">«Agis comme un professeur de français et explique-moi les différentes formes de description.»</div>
+<p>Ou :</p>
+<div class="ex">«Agis comme un professeur de sciences et explique-moi cette expérience avec des mots simples.»</div>
+<p>Cela permet de mieux orienter la réponse.</p>
+<div class="warn"><b>Attention :</b> donner un rôle à l’IA ne signifie pas qu’elle devient réellement professeur, médecin, scientifique ou spécialiste. C’est simplement une façon de préciser le type de réponse souhaité.</div>
+</div>
+
+<div class="rule">
+<h2><span class="n">6</span>Ajouter le contexte nécessaire</h2>
+<p>L’IA ne connaît pas forcément le contexte de ton travail. Si tu travailles sur un texte, une leçon ou un exercice, donne-lui les informations nécessaires. Par exemple :</p>
+<div class="ex">«Je suis en 2e année du collège. Je dois préparer un exposé de français sur le conte. Aide-moi à construire un plan simple en trois parties.»</div>
+<div class="tip">Le contexte permet à l’IA de mieux comprendre ta situation.</div>
+</div>
+
+<div class="rule">
+<h2><span class="n">7</span>Dire ce qu’il ne faut pas faire</h2>
+<p>Un bon prompt peut aussi préciser certaines limites. Par exemple :</p>
+<div class="ex">«Explique cette notion sans utiliser de termes scientifiques compliqués.»</div>
+<p>Ou :</p>
+<div class="ex">«Donne-moi uniquement les idées principales, sans introduction.»</div>
+<p>Ou encore :</p>
+<div class="ex">«Utilise un vocabulaire adapté aux collégiens.»</div>
+<div class="tip">Ces indications permettent d’éviter une réponse trop longue, trop compliquée ou mal adaptée.</div>
+</div>
+
+<div class="rule">
+<h2><span class="n">8</span>Demander des exemples</h2>
+<p>Les exemples rendent souvent une explication beaucoup plus facile à comprendre. Par exemple :</p>
+<div class="ex">«Explique la différence entre une comparaison et une métaphore. Donne deux exemples pour chaque notion.»</div>
+<div class="tip">L’IA ne se contente alors pas de donner une définition : elle montre comment utiliser la notion.</div>
+</div>
+
+<div class="rule">
+<h2><span class="n">9</span>Décomposer les tâches complexes</h2>
+<p>Lorsqu’une tâche est importante, il vaut mieux éviter de tout demander en une seule phrase.</p>
+<div class="bad"><b>❌ Au lieu de dire</b>«Fais-moi un exposé sur le changement climatique.»</div>
+<div class="good"><b>✅ Tu peux préciser</b>«Aide-moi à préparer un exposé sur le changement climatique pour une classe de collège.
+<ol><li>Propose un plan en trois parties.</li><li>Donne les idées essentielles de chaque partie.</li><li>Propose une courte introduction.</li><li>Termine par une conclusion.»</li></ol></div>
+<div class="tip">Une grande tâche devient ainsi plusieurs petites tâches plus faciles à réaliser.</div>
+</div>
+
+<div class="rule">
+<h2><span class="n">10</span>Vérifier toujours la réponse</h2>
+<p>C’est probablement la règle la plus importante. L’IA peut se tromper. Elle peut donner une information incorrecte, mélanger deux notions, inventer une référence ou présenter une information ancienne comme si elle était certaine.</p>
+<p>Il ne faut donc pas copier automatiquement sa réponse. Compare les informations importantes avec :</p>
+<ul><li>ton manuel scolaire ;</li><li>les documents donnés par ton professeur ;</li><li>des sites fiables ;</li><li>des livres ou encyclopédies ;</li><li>plusieurs sources différentes.</li></ul>
+<div class="warn">L’IA est un outil d’aide, <b>pas une source infaillible.</b></div>
+</div>
+
+<div class="box">
+<h2>✨ La formule magique d’un bon prompt</h2>
+<p>Pour construire facilement un bon prompt, tu peux retenir cette formule :</p>
+<div class="formula"><span style="background:#2f80ed">RÔLE</span><b>+</b><span style="background:#7c3aed">OBJECTIF</span><b>+</b><span style="background:#14b8a6">CONTEXTE</span><b>+</b><span style="background:#f59e0b">CONSIGNES</span><b>+</b><span style="background:#e5484d">FORMAT</span></div>
+<p>Par exemple :</p>
+<div class="ex"><b>Rôle :</b> Agis comme un professeur de français.<br><b>Objectif :</b> Aide-moi à comprendre la description.<br><b>Contexte :</b> Je suis un élève de collège et je prépare un contrôle.<br><b>Consignes :</b> Explique avec des mots simples et donne trois exemples.<br><b>Format :</b> Présente la réponse avec des titres et des listes.</div>
+<p>Il n’est pas obligatoire d’utiliser toutes ces informations à chaque fois. L’essentiel est de donner à l’IA les indications dont elle a besoin.</p>
+</div>
+
+<div class="box">
+<h2>🔎 Avant d’envoyer ton prompt, pose-toi 5 questions</h2>
+<ul class="checks">
+<li>✅ Est-ce que ma demande est claire ?</li>
+<li>✅ Est-ce que j’ai donné suffisamment de contexte ?</li>
+<li>✅ Est-ce que j’ai indiqué mon niveau ?</li>
+<li>✅ Est-ce que j’ai précisé le résultat que je souhaite ?</li>
+<li>✅ Est-ce que j’ai indiqué le format de la réponse si nécessaire ?</li>
+</ul>
+<p style="margin-top:14px">Si tu peux répondre « oui » à ces questions, ton prompt est probablement bien construit.</p>
+</div>
+
+<div class="box">
+<h2>🔁 Un mauvais prompt peut devenir un bon prompt</h2>
+<div class="bad"><b>❌ Prompt trop vague</b>«Fais-moi un texte sur la pollution.»</div>
+<div class="good"><b>✅ Prompt amélioré</b>«Je suis un élève de collège. Je dois rédiger un court texte sur la pollution. Explique les principales causes et conséquences de la pollution, puis propose trois solutions. Utilise un vocabulaire simple et organise la réponse en trois parties.»</div>
+<p>La différence est importante : le deuxième prompt donne à l’IA une véritable feuille de route.</p>
+</div>
+
+<div class="final">
+<h2 style="justify-content:center">🎯 Le plus important à retenir</h2>
+<p>Un bon prompt n’est pas forcément long. Il doit surtout être clair, précis et adapté à l’objectif. Tu peux retenir cette petite règle :</p>
+<q>«Une bonne question donne souvent une meilleure réponse.»</q>
+<p>Et surtout, utilise l’IA pour apprendre et progresser, pas simplement pour faire le travail à ta place. Comprendre, vérifier, réfléchir et apprendre restent toujours essentiels.</p>
+</div>
+
+</div>
