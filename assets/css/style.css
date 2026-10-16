@@ -92,3 +92,21 @@ main{padding-top:18px;padding-bottom:10px;min-height:60vh}
 .site-footer .copy{margin:0;font-size:clamp(11px,3vw,13px);line-height:1.7}
 
 @media(prefers-reduced-motion:reduce){.site-name,.hero{animation:none}}
+/* Images des articles : pleine largeur, centrées */
+.post img:not(.no-full), article img:not(.no-full), .post-content img:not(.no-full) {
+  display: block !important;
+  float: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  margin: 18px 0 !important;
+  border-radius: 14px;
+}
+.post a[style*="float"], article a[style*="float"], .post-content a[style*="float"],
+.post .separator, article .separator, .post-content .separator {
+  float: none !important;
+  display: block !important;
+  margin: 0 !important;
+  text-align: center !important;
+}
+.post table img, article table img, .post-content table img { width: 100% !important; margin: 0 !important; }
