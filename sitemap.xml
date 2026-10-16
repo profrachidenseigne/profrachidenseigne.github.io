@@ -1,0 +1,8 @@
+---
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url><loc>https://profrachidenseigne.github.io/</loc></url>
+{% for post in site.posts %}<url><loc>https://profrachidenseigne.github.io{{ post.url }}</loc><lastmod>{{ post.date | date_to_xmlschema }}</lastmod></url>
+{% endfor %}{% for page in site.pages %}{% if page.url contains '/p/' %}<url><loc>https://profrachidenseigne.github.io{{ page.url }}</loc></url>
+{% endif %}{% endfor %}</urlset>
