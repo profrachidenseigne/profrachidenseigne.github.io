@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gym du cerveau – Jeux de mémoire</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1E1B4B;--bg:#F3F1FF;--v:#6D4AFF;--m:#14B88F;--c:#FF5C7A;--s:#FFC83D;--line:#D9D4FF}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 18px/1.4 Fredoka,"Trebuchet MS",system-ui,sans-serif}
+#app{max-width:720px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:2.2rem;margin:.2em 0 .1em;line-height:1.1}
+h2{margin:.3em 0}
+.sub{margin:0 0 20px;opacity:.85}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.link{background:none;border:0;font:inherit;font-weight:600;color:var(--v);cursor:pointer;padding:8px 4px}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{display:flex;flex-direction:column;gap:6px;text-align:left;font:inherit;color:inherit;background:#fff;border:2px solid var(--line);border-radius:20px;padding:16px;cursor:pointer}
+.card:hover{border-color:var(--v)}
+.card b{font-size:1.25rem}
+.card small{font-size:.95rem;opacity:.85}
+.ico{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:2rem}
+.st{color:#E8A800}.off{color:#CFCBEA}
+.lv{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px}
+.lvb{font:inherit;font-weight:700;font-size:1.3rem;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:16px;padding:12px 2px;cursor:pointer}
+.lvb:hover:not(:disabled){border-color:var(--v)}
+.lvb:disabled{opacity:.45;cursor:not-allowed}
+.lvb small{display:block;font-size:.8rem;font-weight:500;letter-spacing:.05em}
+.btn{font:inherit;font-weight:600;border:0;border-radius:14px;padding:.7em 1.3em;background:var(--v);color:#fff;cursor:pointer;box-shadow:0 4px 0 #4A2FC4}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #4A2FC4}
+.btn.alt{background:#fff;color:var(--v);border:2px solid var(--v);box-shadow:none}
+#i{font-weight:600;text-align:center;min-height:1.5em;margin:8px 0}
+.grid{display:grid;gap:10px;margin-top:12px}
+.tile{aspect-ratio:1;border:2px solid transparent;border-radius:16px;background:var(--v);cursor:pointer;font-size:0;display:grid;place-items:center;padding:0;color:var(--ink)}
+.tile::before{content:"?";font-size:1.8rem;color:#fff;font-weight:700}
+.tile.up{background:#fff;border-color:var(--line);font-size:clamp(1.4rem,7vw,2.4rem)}
+.tile.up::before{content:none}
+.tile.ok{background:#C9F5E8;border-color:var(--m)}
+.tile.bad{background:#FFD9E0;border-color:var(--c)}
+.simon{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:360px;margin:16px auto}
+.pad{aspect-ratio:1;border:0;border-radius:24px;opacity:.55;cursor:pointer}
+.pad.on{opacity:1;filter:brightness(1.15);transform:scale(.96)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.chip{background:#fff;border:2px solid var(--line);border-radius:14px;padding:8px 14px;font-weight:600;font-size:1.2rem}
+textarea{width:100%;font:inherit;border:2px solid var(--line);border-radius:14px;padding:12px;color:var(--ink);margin:12px 0}
+.res{text-align:center;padding:20px 0}
+.big{font-size:3rem;letter-spacing:.1em}
+.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.foot{margin-top:28px;font-size:.9rem;opacity:.75;text-align:center}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const app=document.getElementById("app"),$=s=>document.querySelector(s);
+let P={},run=0,AC;
+try{P=JSON.parse(localStorage.jm||"{}")}catch(e){}
+const save=()=>{try{localStorage.jm=JSON.stringify(P)}catch(e){}};
+const shuffle=a=>a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+const sleep=(ms,t)=>new Promise((ok,no)=>setTimeout(()=>t===run?ok():no(),ms));
+const norm=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const beep=f=>{try{AC=AC||new AudioContext();const o=AC.createOscillator(),v=AC.createGain();o.type="triangle";o.frequency.value=f;o.connect(v);v.connect(AC.destination);v.gain.setValueAtTime(.2,AC.currentTime);v.gain.exponentialRampToValueAtTime(.001,AC.currentTime+.4);o.start();o.stop(AC.currentTime+.4)}catch(e){}};
+const st=n=>`<span class="st">${"★".repeat(n)}</span><span class="off">${"★".repeat(3-n)}</span>`;
+const stars=id=>(P[id]||[0,0,0,0,0]).map(x=>x||0);
+
+const EM=["🐶","🐱","🦊","🐼","🐸","🦁","🐙","🦋"];
+const OBJ=["🍎","🍌","🚗","⚽","🎈","🔑","📚","🎧","⏰","🧸","🌻","🍕","🐢","🎸","🧢","🪁","🍩","🦆","🌙","🧲"];
+const W=["maison","école","chat","livre","soleil","fenêtre","jardin","pomme","cahier","voiture","montagne","chocolat","musique","oiseau","stylo","fromage","bateau","nuage","bonbon","cartable","poisson","chaise","rivière","bicyclette","étoile","lunettes","clavier","tableau","papillon","valise"];
+
+/* Jeu 1 : paires de cartes (4 → 16 cartes, temps d’observation qui diminue) */
+async function cartes(L,end,t){
+  const n=[2,3,4,6,8][L],pk=[5,5,4,4,3][L],cols=n==2?2:n==3?3:4,g=$("#g");
+  const cards=shuffle(EM.slice(0,n).flatMap(e=>[e,e]));
+  let open=[],moves=0,done=0,lock=true;
+  g.innerHTML=`<p id="i"></p><div class="grid" style="grid-template-columns:repeat(${cols},1fr)">${cards.map((e,i)=>`<button class="tile up" data-i="${i}">${e}</button>`).join("")}</div>`;
+  const T=[...g.querySelectorAll(".tile")],say=s=>$("#i").textContent=s;
+  for(let s=pk;s>0;s--){say(`Mémorise les cartes ! ${s}`);await sleep(1000,t)}
+  T.forEach(b=>b.classList.remove("up"));lock=false;say("Trouve les paires !");
+  g.onclick=async e=>{
+    const b=e.target.closest(".tile");
+    if(!b||lock||b.classList.contains("up"))return;
+    b.classList.add("up");open.push(b);
+    if(open.length==2){
+      moves++;lock=true;const[a,c]=open;
+      if(cards[a.dataset.i]==cards[c.dataset.i]){
+        a.classList.add("ok");c.classList.add("ok");open=[];lock=false;
+        if(++done==n)return end(moves<=n*1.5?3:moves<=n*2.5?2:1,`Tu as réussi en ${moves} essais.`);
+      }else{await sleep(800,t);a.classList.remove("up");c.classList.remove("up");open=[];lock=false}
+    }
+    say(`Essais : ${moves}`);
+  };
+}
+
+/* Jeu 2 : Simon (séquence de couleurs et de sons de plus en plus longue) */
+async function simon(L,end,t){
+  const len=[3,4,5,6,8][L],sp=[700,600,520,450,380][L],col=["#FF5C7A","#FFC83D","#14B88F","#4DA3FF"],fr=[262,330,392,494],g=$("#g");
+  g.innerHTML=`<p id="i"></p><div class="simon">${col.map((c,i)=>`<button class="pad" data-i="${i}" style="background:${c}" aria-label="Couleur ${i+1}"></button>`).join("")}</div>`;
+  const Pd=[...g.querySelectorAll(".pad")],say=s=>$("#i").textContent=s;
+  const seq=Array.from({length:len},()=>Math.floor(Math.random()*4));
+  let err=0;
+  const flash=async i=>{Pd[i].classList.add("on");beep(fr[i]);await sleep(sp*.6,t);Pd[i].classList.remove("on");await sleep(sp*.4,t)};
+  for(let r=1;r<=len;r++){
+    let ok=false;
+    while(!ok){
+      g.onclick=null;say("Regarde bien…");await sleep(700,t);
+      for(let k=0;k<r;k++)await flash(seq[k]);
+      say(`À toi ! Étape ${r} sur ${len}`);
+      ok=await new Promise(res=>{
+        let k=0;
+        g.onclick=e=>{
+          const b=e.target.closest(".pad");if(!b)return;
+          const i=+b.dataset.i;b.classList.add("on");beep(fr[i]);setTimeout(()=>b.classList.remove("on"),200);
+          if(i!==seq[k]){g.onclick=null;res(false)}else if(++k==r){g.onclick=null;res(true)}
+        };
+      });
+      if(!ok){err++;say("Oups ! On recommence cette séquence.");await sleep(1300,t)}
+    }
+  }
+  end(err==0?3:err==1?2:1,`Séquence de ${len} réussie avec ${err} erreur${err>1?"s":""}.`);
+}
+
+/* Jeu 3 : Qu’est-ce qui a changé ? (3 manches par niveau) */
+async function change(L,end,t){
+  const n=[4,6,8,10,12][L],tm=[6,6,5,5,4][L],cols=[2,3,4,5,4][L],g=$("#g");
+  let good=0;
+  const draw=(a,c)=>{g.innerHTML=`<p id="i"></p><div class="grid" style="grid-template-columns:repeat(${cols},1fr)">${a.map((e,i)=>`<button class="tile up" data-i="${i}">${e}</button>`).join("")}</div>`;g.onclick=c};
+  for(let r=1;r<=3;r++){
+    const it=shuffle(OBJ).slice(0,n),k=Math.floor(Math.random()*n),nw=shuffle(OBJ.filter(x=>!it.includes(x)))[0];
+    const it2=it.slice();it2[k]=Math.random()<.5?"":nw;
+    draw(it,null);
+    for(let s=tm;s>0;s--){$("#i").textContent=`Manche ${r} sur 3. Mémorise ! ${s}`;await sleep(1000,t)}
+    draw(it2,null);$("#i").textContent=`Manche ${r} sur 3. Qu’est-ce qui a changé ?`;
+    const hit=await new Promise(res=>{
+      g.onclick=e=>{
+        const b=e.target.closest(".tile");if(!b)return;
+        g.onclick=null;const h=+b.dataset.i==k;
+        b.classList.add(h?"ok":"bad");g.querySelectorAll(".tile")[k].classList.add("ok");res(h);
+      };
+    });
+    if(hit)good++;
+    await sleep(1200,t);
+  }
+  end(good,`${good} bonne${good>1?"s":""} réponse${good>1?"s":""} sur 3.`);
+}
+
+/* Jeu 4 : rappel de mots (écris ceux dont tu te souviens) */
+async function mots(L,end,t){
+  const n=[4,6,8,10,12][L],tm=[8,9,10,11,12][L],g=$("#g");
+  const list=shuffle(W).slice(0,n);
+  g.innerHTML=`<p id="i"></p><div class="chips">${list.map(w=>`<span class="chip">${w}</span>`).join("")}</div>`;
+  for(let s=tm;s>0;s--){$("#i").textContent=`Mémorise les mots ! ${s}`;await sleep(1000,t)}
+  g.innerHTML=`<p id="i">Écris les mots dont tu te souviens, séparés par un espace.</p><textarea id="a" rows="3" autocapitalize="off" autocomplete="off" spellcheck="false" aria-label="Tes mots"></textarea><div class="row"><button class="btn" id="ok">Valider</button></div>`;
+  $("#a").focus();
+  await new Promise(res=>$("#ok").onclick=res);
+  const got=new Set(norm($("#a").value).split(/[\s,;.]+/).filter(Boolean));
+  const found=list.filter(w=>got.has(norm(w))).length;
+  const s=found==n?3:found>=Math.ceil(n*.75)?2:found>=Math.ceil(n*.5)?1:0;
+  end(s,`${found} mot${found>1?"s":""} sur ${n}. Les mots étaient : ${list.join(", ")}.`);
+}
+
+const G=[
+  {id:"cartes",n:"Paires de cartes",e:"🃏",c:"#E4DDFF",d:"Retourne les cartes et retrouve toutes les paires.",f:cartes},
+  {id:"simon",n:"Simon",e:"🎵",c:"#FFD9E0",d:"Répète la suite de couleurs et de sons.",f:simon},
+  {id:"change",n:"Qu’est-ce qui a changé ?",e:"🔍",c:"#C9F5E8",d:"Observe la scène, puis trouve ce qui a changé.",f:change},
+  {id:"mots",n:"Rappel de mots",e:"✏️",c:"#FFEFB8",d:"Mémorise des mots français, puis écris-les.",f:mots}
+];
+
+function home(){
+  run++;
+  app.innerHTML=`<h1>Gym du cerveau</h1><p class="sub">Quatre jeux pour entraîner ta mémoire. Réussis un niveau pour débloquer le suivant.</p>
+  <div class="games">${G.map(x=>`<button class="card" onclick="levels('${x.id}')"><span class="ico" style="background:${x.c}">${x.e}</span><b>${x.n}</b><small>${x.d}</small><span>${st(Math.min(3,Math.max(...stars(x.id))))}</span></button>`).join("")}</div>
+  <p class="foot">Tes étoiles sont enregistrées sur cet appareil.</p>`;
+}
+
+function levels(id){
+  run++;
+  const x=G.find(g=>g.id==id),s=stars(id);
+  app.innerHTML=`<div class="top"><button class="link" onclick="home()">← Les jeux</button></div><h1>${x.n}</h1><p class="sub">${x.d}</p>
+  <div class="lv">${s.map((v,i)=>`<button class="lvb" ${i>0&&!s[i-1]?"disabled":""} onclick="play('${id}',${i})">${i>0&&!s[i-1]?"🔒":i+1}<small>${st(v)}</small></button>`).join("")}</div>`;
+}
+
+function play(id,L){
+  const t=++run,x=G.find(g=>g.id==id);
+  app.innerHTML=`<div class="top"><button class="link" onclick="levels('${id}')">← Niveaux</button><b>Niveau ${L+1} sur 5</b></div><div id="g"></div>`;
+  const end=(s,d)=>{
+    if(t!==run)return;
+    if(s>0){P[id]=stars(id);P[id][L]=Math.max(P[id][L],s);save()}
+    $("#g").onclick=null;
+    $("#g").innerHTML=`<div class="res"><div class="big">${s?st(s):"😕"}</div><h2>${s?["","Bien joué !","Très bien !","Parfait !"][s]:"Pas cette fois"}</h2><p>${d}</p>
+    <div class="row"><button class="btn" onclick="play('${id}',${L})">Rejouer</button>${s&&L<4?`<button class="btn" onclick="play('${id}',${L+1})">Niveau suivant</button>`:""}<button class="btn alt" onclick="levels('${id}')">Niveaux</button></div></div>`;
+  };
+  x.f(L,end,t).catch(()=>{});
+}
+home();
+</script>
+</body>
+</html>
