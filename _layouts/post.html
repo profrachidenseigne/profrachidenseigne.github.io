@@ -16,6 +16,26 @@ layout: default
 <article class="post-body">
   {{ content }}
 </article>
+<style>
+.author-box{display:none!important}
+.abx{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin:32px 0;padding:22px;border:1px solid rgba(127,127,127,.28);border-radius:22px;background:rgba(127,127,127,.07)}
+.abx-av{flex:none;width:68px;height:68px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1.4em;color:#fff;background:linear-gradient(135deg,#7cb518,#2f80ed)}
+.abx-in{flex:1 1 240px;min-width:0}
+.abx-n{display:block;font-size:1.2em;font-weight:800;line-height:1.2}
+.abx-r{display:block;margin:2px 0 8px;opacity:.75;font-size:.95em}
+.abx-p{margin:0 0 12px!important;font-size:.95em;line-height:1.6}
+.abx-l a{display:inline-block;margin:0 8px 8px 0;padding:8px 16px;border-radius:999px;border:1px solid rgba(127,127,127,.4);color:inherit!important;text-decoration:none!important;font-weight:700;font-size:.9em}
+.abx-l a:hover{background:rgba(47,128,237,.15)}
+</style>
+<section class="abx">
+<div class="abx-av">PR</div>
+<div class="abx-in">
+<strong class="abx-n">{{ site.author }}</strong>
+<span class="abx-r">Enseignant de français · Créateur de contenu éducatif</span>
+<p class="abx-p">Des ressources gratuites pour apprendre le français : articles, vocabulaire, histoires et livres à télécharger.</p>
+<div class="abx-l"><a href="https://youtube.com/@apprendrecestvivre3792?si=asNq2FVYFrsGt0uB">YouTube</a><a href="https://www.facebook.com/share/1Q9egXUN6z/">Facebook</a><a href="/p/contact-us.html">Contact</a></div>
+</div>
+</section>
 <section class="author-box">
   <strong>{{ site.author }}</strong>
   <span>Enseignant de Français | Créateur de Contenu Éducatif</span>
