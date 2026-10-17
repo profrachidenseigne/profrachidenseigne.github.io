@@ -5,18 +5,213 @@ date: 2026-10-17 10:00:00 +0100
 tags: [Jeux]
 ---
 
-<img src="{{ '/assets/images/blogger/jeux-memoire.jpg' | relative_url }}" alt="Entraîne ton cerveau avec ces jeux" style="width:100%;height:auto;border-radius:16px">
+<img src="{{ '/assets/images/jeux-memoire.jpg' | relative_url }}" alt="Entraîne ton cerveau avec ces jeux" style="width:100%;height:auto;border-radius:16px">
 
 Quatre jeux pour entraîner ta mémoire et ta concentration. Chaque jeu a 5 niveaux : réussis un niveau pour débloquer le suivant et gagner jusqu’à 3 étoiles.
 
-- **Paires de cartes** : retrouve toutes les paires.
-- **Simon** : répète la suite de couleurs et de sons.
-- **Qu’est-ce qui a changé ?** : observe la scène, puis trouve ce qui a changé.
-- **Rappel de mots** : mémorise des mots français, puis écris-les.
-
-<iframe id="jeux" src="{{ '/jeux-memoire.html' | relative_url }}" title="Jeux de mémoire" width="100%" height="620" scrolling="no" style="display:block;width:100%;border:0;border-radius:20px;overflow:hidden" loading="lazy"></iframe>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Lilita+One&display=swap" rel="stylesheet">
+<div id="jm-host"></div>
 <script>
-addEventListener("message",function(e){var f=document.getElementById("jeux");if(f&&e.source===f.contentWindow&&e.data&&e.data.jmH){f.style.height=e.data.jmH+"px"}});
+{% raw %}
+(function(){
+const CSS=`
+:host{all:initial;display:block;margin:20px 0;border-radius:24px;overflow:hidden;--ink:#150B3D;--y:#FFD93D}
+*{box-sizing:border-box}
+.jm{margin:0;position:relative;color:#fff;font:500 17px/1.4 Fredoka,"Trebuchet MS",system-ui,sans-serif;
+background:radial-gradient(circle at 15% 0,#4B25C9 0,transparent 55%),radial-gradient(circle at 95% 100%,#0E7490 0,transparent 50%),#150B3D}
+.jm::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.2;background-image:radial-gradient(#fff 1px,transparent 1.6px);background-size:44px 44px}
+#app{position:relative;max-width:640px;margin:0 auto;padding:18px 14px 26px}
+h1,h2,.gt b,.n{font-family:"Lilita One",Fredoka,sans-serif;font-weight:400}
+h1{font-size:2.2rem;line-height:1.1;margin:.3em 0 .1em;text-align:center;text-shadow:0 3px 0 rgba(0,0,0,.35)}
+h2{font-size:1.8rem;margin:.2em 0}
+.sub{margin:6px 0 14px;text-align:center;opacity:.9}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.pill{display:inline-block;background:rgba(255,255,255,.14);border:2px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 16px;font-weight:600}
+.hud{text-align:center;margin-bottom:16px}
+.back{width:46px;height:46px;border-radius:50%;border:2px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:#fff;font:inherit;font-size:1.4rem;cursor:pointer}
+.link{display:inline-block;color:var(--y);font-weight:600;text-decoration:none;margin-bottom:4px}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gt{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font:inherit;color:#fff;cursor:pointer;padding:16px 8px 14px;border:0;border-bottom:6px solid rgba(0,0,0,.32);border-radius:24px;background:linear-gradient(160deg,var(--a),var(--b));transition:transform .15s}
+.gt:hover{transform:translateY(-3px)}
+.gt:active{transform:translateY(2px)}
+.gt .em{font-size:3.2rem;line-height:1}
+.gt b{font-size:1.2rem;line-height:1.15}
+.gt .sc{background:rgba(0,0,0,.25);border-radius:999px;padding:2px 12px;font-size:.9rem}
+.st{color:var(--y)}.off{color:rgba(255,255,255,.3)}
+.lv{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0}
+.lvb{font:inherit;color:#fff;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.25);border-bottom:5px solid rgba(0,0,0,.3);border-radius:18px;padding:10px 0 8px;cursor:pointer}
+.lvb .n{display:block;font-size:1.9rem;line-height:1.1}
+.lvb small{display:block;font-size:.75rem}
+.lvb:disabled{opacity:.45;cursor:not-allowed}
+.lvb.next{background:linear-gradient(160deg,var(--a),var(--b));border-color:#fff;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.07)}}
+.btn{font:inherit;font-weight:600;border:0;border-radius:16px;padding:.7em 1.3em;background:var(--y);color:var(--ink);cursor:pointer;box-shadow:0 5px 0 #C99A00}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #C99A00}
+.btn.alt{background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.4);box-shadow:none}
+#i{text-align:center;font-weight:600;background:rgba(255,255,255,.14);border-radius:999px;padding:8px 14px;margin:10px 0;min-height:2.4em}
+.grid{display:grid;gap:10px;margin:12px auto;max-width:520px}
+.tile{aspect-ratio:1;border:0;border-bottom:5px solid #4C1D95;border-radius:16px;background:linear-gradient(145deg,#A78BFA,#6D28D9);cursor:pointer;font-size:0;display:grid;place-items:center;padding:0;color:var(--ink)}
+.tile::before{content:"?";font-family:"Lilita One",sans-serif;font-size:2rem;color:rgba(255,255,255,.9)}
+.tile.up{background:#fff;border-bottom-color:#C4B5FD;font-size:clamp(1.5rem,8vw,2.5rem);animation:pop .25s}
+.tile.up::before{content:none}
+.tile.ok{background:#BBF7D0;border-bottom-color:#16A34A}
+.tile.bad{background:#FECACA;border-bottom-color:#DC2626}
+@keyframes pop{0%{transform:scale(.7) rotateY(90deg)}100%{transform:none}}
+.simon{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:360px;margin:18px auto}
+.pad{aspect-ratio:1;border:0;border-bottom:7px solid rgba(0,0,0,.3);border-radius:28px;opacity:.55;cursor:pointer}
+.pad.on{opacity:1;filter:brightness(1.2);transform:scale(.96);box-shadow:0 0 40px 8px currentColor}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.chip{background:#fff;color:var(--ink);border-bottom:4px solid #C4B5FD;border-radius:14px;padding:8px 14px;font-weight:600;font-size:1.2rem;animation:pop .3s}
+textarea{width:100%;font:inherit;border:0;border-radius:16px;padding:12px;color:var(--ink);background:#fff;margin:12px 0}
+.res{position:relative;overflow:hidden;text-align:center;padding:24px 0}
+.big{font-size:3.2rem;letter-spacing:.1em}
+.big .st{display:inline-block;animation:pop .5s}
+.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.cf{position:absolute;top:-30px;font-style:normal;font-size:1.5rem;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(440px) rotate(360deg);opacity:0}}
+.foot{margin-top:22px;font-size:.85rem;opacity:.7;text-align:center}
+:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+`;
+const host=document.getElementById("jm-host"),root=host.attachShadow({mode:"open"});
+root.innerHTML="<style>"+CSS+"</style><div class=\"jm\"><div id=\"app\"></div></div>";
+const app=root.getElementById("app"),$=s=>root.querySelector(s);
+let P={},run=0,AC;
+try{P=JSON.parse(localStorage.jm||"{}")}catch(e){}
+const save=()=>{try{localStorage.jm=JSON.stringify(P)}catch(e){}};
+const shuffle=a=>a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+const sleep=(ms,t)=>new Promise((ok,no)=>setTimeout(()=>t===run?ok():no(),ms));
+const norm=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const beep=f=>{try{AC=AC||new AudioContext();const o=AC.createOscillator(),v=AC.createGain();o.type="triangle";o.frequency.value=f;o.connect(v);v.connect(AC.destination);v.gain.setValueAtTime(.2,AC.currentTime);v.gain.exponentialRampToValueAtTime(.001,AC.currentTime+.4);o.start();o.stop(AC.currentTime+.4)}catch(e){}};
+const st=n=>`<span class="st">${"★".repeat(n)}</span><span class="off">${"★".repeat(3-n)}</span>`;
+const stars=id=>(P[id]||[0,0,0,0,0]).map(x=>x||0);
+const conf=()=>Array.from({length:26},(_,i)=>`<i class="cf" style="left:${Math.random()*100}%;animation-delay:${Math.random()*.8}s;animation-duration:${1.8+Math.random()*1.5}s">${["⭐","🎉","✨","💜","💛"][i%5]}</i>`).join("");
+const EM=["🐶","🐱","🦊","🐼","🐸","🦁","🐙","🦋"];
+const OBJ=["🍎","🍌","🚗","⚽","🎈","🔑","📚","🎧","⏰","🧸","🌻","🍕","🐢","🎸","🧢","🪁","🍩","🦆","🌙","🧲"];
+const W=["maison","école","chat","livre","soleil","fenêtre","jardin","pomme","cahier","voiture","montagne","chocolat","musique","oiseau","stylo","fromage","bateau","nuage","bonbon","cartable","poisson","chaise","rivière","bicyclette","étoile","lunettes","clavier","tableau","papillon","valise"];
+/* Jeu 1 : paires de cartes */
+async function cartes(L,end,t){
+  const n=[2,3,4,6,8][L],pk=[5,5,4,4,3][L],cols=n==2?2:n==3?3:4,g=$("#g");
+  const cards=shuffle(EM.slice(0,n).flatMap(e=>[e,e]));
+  let open=[],moves=0,done=0,lock=true;
+  g.innerHTML=`<p id="i"></p><div class="grid" style="grid-template-columns:repeat(${cols},1fr)">${cards.map((e,i)=>`<button class="tile up" data-i="${i}">${e}</button>`).join("")}</div>`;
+  const T=[...g.querySelectorAll(".tile")],say=s=>$("#i").textContent=s;
+  for(let s=pk;s>0;s--){say(`Mémorise les cartes ! ${s}`);await sleep(1000,t)}
+  T.forEach(b=>b.classList.remove("up"));lock=false;say("Trouve les paires !");
+  g.onclick=async e=>{
+    const b=e.target.closest(".tile");
+    if(!b||lock||b.classList.contains("up"))return;
+    b.classList.add("up");beep(380);open.push(b);
+    if(open.length==2){
+      moves++;lock=true;const[a,c]=open;
+      if(cards[a.dataset.i]==cards[c.dataset.i]){
+        a.classList.add("ok");c.classList.add("ok");open=[];lock=false;beep(660);
+        if(++done==n)return end(moves<=n*1.5?3:moves<=n*2.5?2:1,`Tu as réussi en ${moves} essais.`);
+      }else{await sleep(800,t);a.classList.remove("up");c.classList.remove("up");open=[];lock=false}
+    }
+    say(`Essais : ${moves}`);
+  };
+}
+/* Jeu 2 : Simon */
+async function simon(L,end,t){
+  const len=[3,4,5,6,8][L],sp=[700,600,520,450,380][L],col=["#FF4FA3","#FFD93D","#4ADE80","#38BDF8"],fr=[262,330,392,494],g=$("#g");
+  g.innerHTML=`<p id="i"></p><div class="simon">${col.map((c,i)=>`<button class="pad" data-i="${i}" style="background:${c};color:${c}" aria-label="Couleur ${i+1}"></button>`).join("")}</div>`;
+  const Pd=[...g.querySelectorAll(".pad")],say=s=>$("#i").textContent=s;
+  const seq=Array.from({length:len},()=>Math.floor(Math.random()*4));
+  let err=0;
+  const flash=async i=>{Pd[i].classList.add("on");beep(fr[i]);await sleep(sp*.6,t);Pd[i].classList.remove("on");await sleep(sp*.4,t)};
+  for(let r=1;r<=len;r++){
+    let ok=false;
+    while(!ok){
+      g.onclick=null;say("Regarde bien…");await sleep(700,t);
+      for(let k=0;k<r;k++)await flash(seq[k]);
+      say(`À toi ! Étape ${r} sur ${len}`);
+      ok=await new Promise(res=>{
+        let k=0;
+        g.onclick=e=>{
+          const b=e.target.closest(".pad");if(!b)return;
+          const i=+b.dataset.i;b.classList.add("on");beep(fr[i]);setTimeout(()=>b.classList.remove("on"),200);
+          if(i!==seq[k]){g.onclick=null;res(false)}else if(++k==r){g.onclick=null;res(true)}
+        };
+      });
+      if(!ok){err++;beep(160);say("Oups ! On recommence cette séquence.");await sleep(1300,t)}
+    }
+  }
+  end(err==0?3:err==1?2:1,`Séquence de ${len} réussie avec ${err} erreur${err>1?"s":""}.`);
+}
+/* Jeu 3 : Qu’est-ce qui a changé ? */
+async function change(L,end,t){
+  const n=[4,6,8,10,12][L],tm=[6,6,5,5,4][L],cols=[2,3,4,5,4][L],g=$("#g");
+  let good=0;
+  const draw=(a,c)=>{g.innerHTML=`<p id="i"></p><div class="grid" style="grid-template-columns:repeat(${cols},1fr)">${a.map((e,i)=>`<button class="tile up" data-i="${i}">${e}</button>`).join("")}</div>`;g.onclick=c};
+  for(let r=1;r<=3;r++){
+    const it=shuffle(OBJ).slice(0,n),k=Math.floor(Math.random()*n),nw=shuffle(OBJ.filter(x=>!it.includes(x)))[0];
+    const it2=it.slice();it2[k]=Math.random()<.5?"":nw;
+    draw(it,null);
+    for(let s=tm;s>0;s--){$("#i").textContent=`Manche ${r} sur 3. Mémorise ! ${s}`;await sleep(1000,t)}
+    draw(it2,null);$("#i").textContent=`Manche ${r} sur 3. Qu’est-ce qui a changé ?`;
+    const hit=await new Promise(res=>{
+      g.onclick=e=>{
+        const b=e.target.closest(".tile");if(!b)return;
+        g.onclick=null;const h=+b.dataset.i==k;
+        b.classList.add(h?"ok":"bad");g.querySelectorAll(".tile")[k].classList.add("ok");beep(h?660:160);res(h);
+      };
+    });
+    if(hit)good++;
+    await sleep(1200,t);
+  }
+  end(good,`${good} bonne${good>1?"s":""} réponse${good>1?"s":""} sur 3.`);
+}
+/* Jeu 4 : rappel de mots */
+async function mots(L,end,t){
+  const n=[4,6,8,10,12][L],tm=[8,9,10,11,12][L],g=$("#g");
+  const list=shuffle(W).slice(0,n);
+  g.innerHTML=`<p id="i"></p><div class="chips">${list.map(w=>`<span class="chip">${w}</span>`).join("")}</div>`;
+  for(let s=tm;s>0;s--){$("#i").textContent=`Mémorise les mots ! ${s}`;await sleep(1000,t)}
+  g.innerHTML=`<p id="i">Écris les mots dont tu te souviens, séparés par un espace.</p><textarea id="a" rows="3" autocapitalize="off" autocomplete="off" spellcheck="false" aria-label="Tes mots"></textarea><div class="row"><button class="btn" id="ok">Valider</button></div>`;
+  $("#a").focus();
+  await new Promise(res=>$("#ok").onclick=res);
+  const got=new Set(norm($("#a").value).split(/[\s,;.]+/).filter(Boolean));
+  const found=list.filter(w=>got.has(norm(w))).length;
+  const s=found==n?3:found>=Math.ceil(n*.75)?2:found>=Math.ceil(n*.5)?1:0;
+  end(s,`${found} mot${found>1?"s":""} sur ${n}. Les mots étaient : ${list.join(", ")}.`);
+}
+const G=[
+  {id:"cartes",n:"Paires de cartes",e:"🃏",a:"#8B5CF6",b:"#6D28D9",d:"Retourne les cartes et retrouve toutes les paires.",f:cartes},
+  {id:"simon",n:"Simon",e:"🎵",a:"#F43F8E",b:"#BE185D",d:"Répète la suite de couleurs et de sons.",f:simon},
+  {id:"change",n:"Qu’est-ce qui a changé ?",e:"🔍",a:"#0D9488",b:"#0F766E",d:"Observe la scène, puis trouve ce qui a changé.",f:change},
+  {id:"mots",n:"Rappel de mots",e:"✏️",a:"#F97316",b:"#C2410C",d:"Mémorise des mots français, puis écris-les.",f:mots}
+];
+const sum=id=>stars(id).reduce((p,q)=>p+q,0);
+function home(){
+  run++;
+  const tot=G.reduce((a,x)=>a+sum(x.id),0);
+  app.innerHTML=`<h1>🧠 Gym du cerveau</h1><p class="sub">Choisis ton jeu et gagne des étoiles !</p>
+  <div class="hud"><span class="pill"><span class="st">★</span> ${tot} / 60</span></div>
+  <div class="games">${G.map(x=>`<button class="gt" style="--a:${x.a};--b:${x.b}" onclick="jm.levels('${x.id}')"><span class="em">${x.e}</span><b>${x.n}</b><span class="sc"><span class="st">★</span> ${sum(x.id)} / 15</span></button>`).join("")}</div>
+  <p class="foot">Tes étoiles sont enregistrées sur cet appareil.</p>`;
+}
+function levels(id){
+  run++;
+  const x=G.find(g=>g.id==id),s=stars(id);
+  app.innerHTML=`<div class="top"><button class="back" onclick="jm.home()" aria-label="Retour aux jeux">←</button><span class="pill">${x.e} ${x.n}</span></div><p class="sub">${x.d}</p>
+  <div class="lv">${s.map((v,i)=>{const lock=i>0&&!s[i-1],nx=!lock&&!v;return `<button class="lvb${nx?" next":""}" style="--a:${x.a};--b:${x.b}" ${lock?"disabled":""} onclick="jm.play('${id}',${i})"><span class="n">${lock?"🔒":i+1}</span><small>${st(v)}</small></button>`}).join("")}</div>
+  <p class="sub">Réussis un niveau pour débloquer le suivant.</p>`;
+}
+function play(id,L){
+  const t=++run,x=G.find(g=>g.id==id);
+  app.innerHTML=`<div class="top"><button class="back" onclick="jm.levels('${id}')" aria-label="Retour aux niveaux">←</button><span class="pill">Niveau ${L+1} sur 5</span></div><div id="g"></div>`;
+  const end=(s,d)=>{
+    if(t!==run)return;
+    if(s>0){P[id]=stars(id);P[id][L]=Math.max(P[id][L],s);save();[523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f),i*140))}else beep(196);
+    $("#g").onclick=null;
+    $("#g").innerHTML=`<div class="res">${s?conf():""}<div class="big">${s?st(s):"😕"}</div><h2>${s?["","Bien joué !","Très bien !","Parfait !"][s]:"Pas cette fois"}</h2><p>${d}</p>
+    <div class="row"><button class="btn" onclick="jm.play('${id}',${L})">Rejouer</button>${s&&L<4?`<button class="btn" onclick="jm.play('${id}',${L+1})">Niveau suivant</button>`:""}<button class="btn alt" onclick="jm.levels('${id}')">Niveaux</button></div></div>`;
+  };
+  x.f(L,end,t).catch(()=>{});
+}
+home();
+window.jm={home,levels,play};
+})();
+{% endraw %}
 </script>
-
-<p><a href="{{ '/jeux-memoire.html' | relative_url }}" target="_blank" rel="noopener">Ouvrir les jeux en plein écran</a></p>
