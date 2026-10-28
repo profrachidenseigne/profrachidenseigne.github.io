@@ -6,7 +6,7 @@
   var shown = 0;
   cards.forEach(function (c) {
     var ok = true;
-    if (q) ok = c.dataset.title.indexOf(q) > -1 || c.dataset.tags.toLowerCase().indexOf(q) > -1;
+    if (q) { var n = function (s) { return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }; ok = n(c.dataset.title).indexOf(n(q)) > -1 || n(c.dataset.tags).indexOf(n(q)) > -1; }
     if (ok && tag) ok = ('|' + c.dataset.tags + '|').indexOf('|' + tag + '|') > -1;
     c.style.display = ok ? '' : 'none';
     if (ok) shown++;
