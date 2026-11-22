@@ -73,7 +73,7 @@ main{padding-top:18px;padding-bottom:10px;min-height:60vh}
 .post-body li::marker{color:var(--blue)}
 .post-body a{color:var(--blue);text-decoration:underline;text-underline-offset:2px}
 .post-body blockquote{margin:1.9em 0;font-style:italic;font-size:17px}
-.post-body img{margin:.6em auto;height:auto}
+.post-body img{margin:.6em auto;height:auto;border-radius:18px}
 .post-body table{max-width:100%;display:block;overflow-x:auto}
 .post-body iframe{max-width:100%}
 .page-card{max-width:760px;margin:20px auto 24px;padding:22px 20px 26px;background:#fff;border:1px solid #e3e8f2;border-radius:18px;box-shadow:0 2px 14px rgba(0,0,0,.06);font-size:16px;line-height:1.8}
